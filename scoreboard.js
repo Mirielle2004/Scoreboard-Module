@@ -10,6 +10,7 @@ function Scoreboard(options = null){
   $("body").children().last().prepend("<div id='container_submit_score_dialog' title='Submit Your Score!'><input placeholder='Name:' id='name_submit_new_score'><br /><label id='lbl_your_score'>Your Score: </label><label id=lbl_best_score_submit></label><br /><label id='lbl_best_score_name_error'></label></div>");
     
     if(!options){
+      // default options: will be used if no options were passed as a paramater
         options={
     // customize the following:
     // syntax is css like, but make sure:
