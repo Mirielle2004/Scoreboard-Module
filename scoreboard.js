@@ -212,7 +212,9 @@ function Scoreboard(options = null){
     // name of user
          "font-family":"'Press Start 2P', Times New Roman",
          "font-size":"10px",
-         "color": "red"
+         "color": "red",
+	 "word-wrap": "break-word",
+         "max-width":"110px"
          },
          scoreValue:{
     // score value
