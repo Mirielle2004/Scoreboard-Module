@@ -296,7 +296,7 @@ function Scoreboard(options = null){
         scoresList = [];
         snapshot.forEach(function(child) {
             scoresList.push({
-                name: markdown.htmlToMarkdown(child.val().name),
+                name: markdown.specToEntities(child.val().name),
                 score: child.val().score,
                 time: child.val().time
             });
