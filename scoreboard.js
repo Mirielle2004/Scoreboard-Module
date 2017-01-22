@@ -330,6 +330,7 @@ function Scoreboard(options = null){
         modal:true, //Not necessary but dims the page background
         autoOpen:false,
         height:400,
+        position:"top",
         open:function(){
             //$(this).html('');
             },
