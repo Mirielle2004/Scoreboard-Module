@@ -1,3 +1,96 @@
+/*
+Scoreboard Module by Burey
+requires the following scripts/links in HTML head:
+        <script src="https://www.gstatic.com/firebasejs/3.6.6/firebase.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+        <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+        <!-- THIS FILE MUST BE BELOW THE OTHERS! -->
+        <script src="https://raw.githubusercontent.com/bureyburey/Scoreboard-Module/master/scoreboard.js"></script>
+requires your own firebase account
+see https://code.sololearn.com/Wb3UALD0atIG/ for tutorial
+if changing options, DO NOT REMOVE EXISTING options, just leave the {} brackets empty
+default options:
+var options={
+         burey:{
+         "font-family":"Times New Roman",
+         "font-style":"italic",
+         "text-shadow": "5px 2px 4px grey",
+         "color": "green",
+         "background-color":"white",
+         "border-radius": "25px"
+         },
+         dialogTitle:{// dialogs title bar
+         "background":"black",
+         "color":"white"
+         },
+         scoreboardContainer:{// scoreboard container dialog
+         "background-color":"#97B5F5"
+         },
+         tableHeader:{// # Name Score Time
+         "font-family":"Times New Roman",
+         "color": "black"
+         },
+         scoreRow:{//deprecated, customize each column instead
+         "font-family":"Times New Roman",
+         "color": "blue"
+         },
+         scorePosition:{// #
+         "font-family":"Times New Roman",
+         "color": "blue"
+         },
+         scoreName:{// name of user
+         "font-family":"'Press Start 2P', Times New Roman",
+         "font-size":"10px",
+         "color": "red"
+         },
+         scoreValue:{// score value
+         "font-family":"Times New Roman",
+         "font-size": "15px",
+         "color": "green"
+         },
+         scoreTime:{// time + date
+         "font-family":"Times New Roman",
+         "font-size":"12px",
+         "color": "yellow"
+         },
+         newScoreContainer:{// submit new score dialog
+         "background-color":"#97B5F5"
+         },
+         scoreYourScoreLabel:{// 'Your Score:' text in new score dialog
+         "font-family":"Times New Roman",
+         "color": "green"
+         },
+         scoreValueLabel:{// score value in new score dialog
+         "font-family":"Times New Roman",
+         "color": "blue",
+         "margin-right":"25px"
+         },
+         scoreErrorLabel:{// error label in new score dialog
+         "font-family":"Times New Roman",
+         "color": "red"
+         },
+         scoreboardButtons:{// scoreboard dialog buttons
+         "font-family":"Times New Roman",
+         "text-shadow": "5px 2px 4px grey",
+         "background":"red",
+         "color": "white",
+         "display":"none" // hide button
+         },
+         newScoreButtons:{// new score dialog buttons
+        "font-family":"Times New Roman",
+         "text-shadow": "5px 2px 4px grey",
+         "background":"black",
+         "color": "white"
+         }}}
+usage example:
+
+var scoreboard = new Scoreboard(options);
+scoreboard.showScoreBoard(); // opens the scoreboard
+scoreboard.submitNewScoreDialog(scoreValue); // open score submit dialog (allow entry of name)
+
+*/
+
 function Scoreboard(options = null){
   var _score = 0;
    
