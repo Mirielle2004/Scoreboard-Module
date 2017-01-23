@@ -92,34 +92,39 @@ scoreboard.submitNewScoreDialog(scoreValue); // open score submit dialog (allow 
 */
 var markdown = {
     // taken from Michael Ermishin's Markdown module
-	htmlEntitiesMap: {
-		'&': '&amp;',
-		'<': '&lt;',
-		'>': '&gt;',
-		'"': '&quot;',
-		"'": '&#039;',
-		' ': '&nbsp;'
-	},	
-	specToEntities: function(text) {
-		var pattern = new RegExp('[' + Object.keys(this.htmlEntitiesMap).join('') + ']', 'g');
-		return text.replace(pattern, k => this.htmlEntitiesMap[k]);
-	}	
+    htmlEntitiesMap: {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;',
+        ' ': '&nbsp;'
+    },    
+    specToEntities: function(text) {
+        var pattern = new RegExp('[' + Object.keys(this.htmlEntitiesMap).join('') + ']', 'g');
+        return text.replace(pattern, k => this.htmlEntitiesMap[k]);
+    }    
 };
 
-function Scoreboard(options = null){
-  var _score = 0;
-   
-// might need to add to a different div, depends on the code, it must be on topmost layer!
+var optionsMap = {
+	// mapping of option name to actual element
+    burey:"#by_burey",
+    dialogTitle:".ui-dialog-titlebar",
+    scoreboardContainer:"#container_scoreboard",
+    tableHeader:".tbl_header",
+    scorePosition:".score_pos",
+    scoreName:".score_name",
+    scoreValue:".score_value",
+    scoreTime:".score_time",
+    newScoreContainer:"#container_submit_score_dialog",
+    scoreYourScoreLabel:"#lbl_your_score",
+    scoreValueLabel:"#lbl_best_score_submit",
+    scoreErrorLabel:"#lbl_best_score_name_error",
+    scoreboardButtons:".buttons_scoreboard",
+    newScoreButtons:".buttons_new_score"
+};
 
-// add container for the scoreboard
-  $("body").children().last().prepend("<div id='container_scoreboard' title='Scoreboard'><div id='by_burey'>Scoreboard Module By Burey</div><table id='scoreboard'><tr class='tbl_header'><th>#</th><th>Name</th><th>Score</th><th>Time</th></tr></table></div>");
-
-// add container div for the new score dialog
-  $("body").children().last().prepend("<div id='container_submit_score_dialog' title='Submit Your Score!'><input placeholder='Name:' id='name_submit_new_score'><br /><label id='lbl_your_score'>Your Score: </label><label id=lbl_best_score_submit></label><br /><label id='lbl_best_score_name_error'></label></div>");
-    
-    if(!options){
-      // default options: will be used if no options were passed as a paramater
-        options={
+var defaultOptions = {
     // customize the following:
     // syntax is css like, but make sure:
     // key and value are both strings!
@@ -160,7 +165,7 @@ function Scoreboard(options = null){
          "font-family":"'Press Start 2P', Times New Roman",
          "font-size":"10px",
          "color": "red",
-	 "word-wrap": "break-word",
+         "word-wrap": "break-word",
          "max-width":"110px"
          },
          scoreValue:{
@@ -211,28 +216,34 @@ function Scoreboard(options = null){
          "color": "white"
          }
       }
+      
+      
+function Scoreboard(options = null, showErrors = false){
+  var _score = 0;
+   
+// might need to add to a different div, depends on the code, it must be on topmost layer!
+
+// add container for the scoreboard
+  $("body").children().last().prepend("<div id='container_scoreboard' title='Scoreboard'><div id='by_burey'>Scoreboard Module By Burey</div><table id='scoreboard'><tr class='tbl_header'><th>#</th><th>Name</th><th>Score</th><th>Time</th></tr></table></div>");
+
+// add container div for the new score dialog
+  $("body").children().last().prepend("<div id='container_submit_score_dialog' title='Submit Your Score!'><input placeholder='Name:' id='name_submit_new_score'><br /><label id='lbl_your_score'>Your Score: </label><label id=lbl_best_score_submit></label><br /><label id='lbl_best_score_name_error'></label></div>");
+    
+    if(!options){
+      // default options: will be used if no options were passed as a paramater
+        options = defaultOptions;
     }
     var applyStyling = function(){
     //change options your own customization
-    try{
-     $("#by_burey").css(options.burey);
-     $(".ui-dialog-titlebar").css(options.dialogTitle);
-     $("#container_scoreboard").css(options.scoreboardContainer);
-     $(".tbl_header").css(options.tableHeader);
-     //$(".score_row").css(options.scoreRow);
-     $(".score_pos").css(options.scorePosition);
-     $(".score_name").css(options.scoreName);
-     $(".score_value").css(options.scoreValue);
-     $(".score_time").css(options.scoreTime);
-      $("#container_submit_score_dialog").css(options.newScoreContainer);
-     $("#lbl_your_score").css(options.scoreYourScoreLabel);
-     $("#lbl_best_score_submit").css(options.scoreValueLabel);
-     $("#lbl_best_score_name_error").css(options.scoreErrorLabel);
-     
-     $(".buttons_scoreboard").css(options.scoreboardButtons);
-     $(".buttons_new_score").css(options.newScoreButtons);
-     
-     }catch(err){alert(err);}
+        for(var option in options){
+            //alert(option)
+            try{
+                $(optionsMap[option]).css(options[option]);
+             }catch(err){
+		     if(showErrors)
+		     	alert(err);
+	     }
+        }
     }
     
     // force websockets to prevent XMLHttpRequest console log
