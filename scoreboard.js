@@ -245,7 +245,6 @@ function Scoreboard(options = null, showErrors = false){
 	     }
         }
     }
-    applyStyling();
     // force websockets to prevent XMLHttpRequest console log
     firebase.database.INTERNAL.forceWebSockets();
     // get database reference
@@ -402,5 +401,6 @@ function Scoreboard(options = null, showErrors = false){
             ]
         }
     );
+applyStyling(); 
   });
 }
