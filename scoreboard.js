@@ -123,7 +123,7 @@ var markdown = {
     // taken from Michael Ermishin's Markdown module
     htmlEntitiesMap: {
         '&': '&amp;',
-        //'<': '&lt;',
+        '<': '&lt;',
         '>': '&gt;',
         '"': '&quot;',
         "'": '&#039;',
@@ -131,7 +131,17 @@ var markdown = {
     },    
     specToEntities: function(text) {
         var pattern = new RegExp('[' + Object.keys(this.htmlEntitiesMap).join('') + ']', 'g');
-        return text.replace(pattern, k => this.htmlEntitiesMap[k]);
+        //return text.replace(pattern, k => this.htmlEntitiesMap[k]);
+        return text.replace(pattern, function (m) {
+            return {        
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": '&gt;',
+                '"': "&quot;",
+                "'": "&#039;",
+                " ": "&nbsp;"
+            }[m];
+        });
     }    
 };
 
