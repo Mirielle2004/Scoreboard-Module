@@ -284,7 +284,7 @@ function initializeLoader(){
 }
       
       
-function Scoreboard(options = null, showErrors = false){
+function Scoreboard(options){
   var _score = 0;
    
 // might need to add to a different div, depends on the code, it must be on topmost layer!
@@ -298,7 +298,7 @@ function Scoreboard(options = null, showErrors = false){
 // add container div for the new score dialog
   $("body").children().last().prepend("<div id='container_submit_score_dialog' title='Submit Your Score!'><input placeholder='Name:' id='name_submit_new_score'><br /><label id='lbl_your_score'>Your Score: </label><label id=lbl_best_score_submit></label><br /><label id='lbl_best_score_name_error'></label></div>");
     
-    if(!options){
+    if(options === undefined){
       // default options: will be used if no options were passed as a paramater
         options = defaultOptions;
     }
@@ -307,9 +307,7 @@ function Scoreboard(options = null, showErrors = false){
         for(var option in options){
             try{
                 $(optionsMap[option]).css(options[option]);
-             }catch(err){
-                 if(showErrors) alert(err);
-            }
+             }catch(err){}
         }
     }
     
