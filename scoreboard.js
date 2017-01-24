@@ -123,7 +123,7 @@ var markdown = {
     // taken from Michael Ermishin's Markdown module
     htmlEntitiesMap: {
         '&': '&amp;',
-        '<': '&lt;',
+        //'<': '&lt;',
         '>': '&gt;',
         '"': '&quot;',
         "'": '&#039;',
