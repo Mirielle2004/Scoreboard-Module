@@ -133,14 +133,7 @@ var markdown = {
         var pattern = new RegExp('[' + Object.keys(this.htmlEntitiesMap).join('') + ']', 'g');
         //return text.replace(pattern, k => this.htmlEntitiesMap[k]);
         return text.replace(pattern, function (m) {
-            return {        
-                "&": "&amp;",
-                "<": "&lt;",
-                ">": '&gt;',
-                '"': "&quot;",
-                "'": "&#039;",
-                " ": "&nbsp;"
-            }[m];
+            return markdown.htmlEntitiesMap[m];[m];
         });
     }    
 };
