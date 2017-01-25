@@ -119,6 +119,11 @@ scoreboard.showScoreBoard(); // opens the scoreboard
 scoreboard.submitNewScoreDialog(scoreValue); // open score submit dialog (allow entry of name)
 */
 
+
+
+
+
+///////// CODE STARTS HERE /////////
 var markdown = {
     // taken from Michael Ermishin's Markdown module
     htmlEntitiesMap: {
@@ -143,7 +148,7 @@ var optionsMap = {
     burey:"#by_burey",
     dialogTitle:".ui-dialog-titlebar",
     scoreboardContainer:"#container_scoreboard",
-    tableHeader:".tbl_header",
+    tableHeader:"#tbl_header",
     scorePosition:".score_pos",
     scoreName:".score_name",
     scoreValue:".score_value",
@@ -259,8 +264,8 @@ var defaultOptions = {
     }
 }          
 
-function initializeLoader(){
-    // adds CSS to the scoreboard loading animation
+function initializeDefaultCSS(){
+    // adds default CSS to the scoreboard dialog
     var KeyFrame = {
     // add spin keyframe rule to page
      init: function(){
@@ -271,9 +276,11 @@ function initializeLoader(){
          KeyFrame.check = true;
         }
      }
-    }
+    };
     KeyFrame.init();
     loaderOptions={
+        // default loader options
+        // set loader colors, size, placement and animation
         "border-bottom": "16px solid #888",
         "border-top": "16px solid #888",
         "border-right": "16px solid #66ccff",
@@ -282,23 +289,37 @@ function initializeLoader(){
         "width": "50px",
         "height": "50px",
         "animation": "spin 1s linear infinite"
-    }
+    };
+    // apply the default loader options
     $('#loader').css(loaderOptions);
+    scoreboardDialogOptions={
+        // default scoreboard dialog options
+        // makes the "Scoreboard Module By Burey" text static (unscrollable)
+         "position": "absolute",
+         "left": "10px",
+         "top": "0",
+         "z-index": "10",
+         "width": "90%",
+         "padding": "0.5e"
+    };
+    
+    // apply the default scoreboard dialog options
+    $('#by_burey').css(scoreboardDialogOptions);
+    // add margin to the scoreboard display area
+    $('#scoreboard').css({"margin-top":"1.5em"});
 }
-      
-      
+            
 function Scoreboard(options){
   var _score = 0;
-   
 // might need to add to a different div, depends on the code, it must be on topmost layer!
 
-// add container for the scoreboard
-  $("body").children().last().prepend("<div id='container_scoreboard' title='Scoreboard'><div id='by_burey'>Scoreboard Module By Burey</div><table id='scoreboard'><tr class='tbl_header'><th>#</th><th>Name</th><th>Score</th><th>Time</th></tr></table><div id='loader'></div></div>");
+// add div container for the scoreboard dialog
+  $("body").children().last().prepend("<div id='container_scoreboard' title='Scoreboard'><div id='by_burey'>Scoreboard Module By Burey</div><table id='scoreboard'><tr id='tbl_header'><th>#</th><th>Name</th><th>Score</th><th>Time</th></tr></table><div id='loader'></div></div>");
  try{
- initializeLoader();
+ initializeDefaultCSS();
 }catch(err){}
 
-// add container div for the new score dialog
+// add div container for the new score dialog
   $("body").children().last().prepend("<div id='container_submit_score_dialog' title='Submit Your Score!'><input placeholder='Name:' id='name_submit_new_score'><br /><label id='lbl_your_score'>Your Score: </label><label id=lbl_best_score_submit></label><br /><label id='lbl_best_score_name_error'></label></div>");
     
     if(options === undefined){
@@ -420,7 +441,6 @@ function Scoreboard(options){
         }
     }
      
-
     $(document).ready(function() {
     // initialize dialogs
     $('#container_scoreboard').dialog({
@@ -450,7 +470,10 @@ function Scoreboard(options){
                 }
             }
             ]
-    });
+    }).scroll(function() {
+        // set the #by_burey div as the top scroll element
+    $('#by_burey', this).css({top: $(this).scrollTop()});
+});
     $('#container_submit_score_dialog').dialog({
         // score submission dialog settings
         modal:true, //Not necessary but dims the page background
