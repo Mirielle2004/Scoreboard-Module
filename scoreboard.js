@@ -159,6 +159,8 @@ var optionsMap = {
     scoreErrorLabel:"#lbl_best_score_name_error",
     scoreboardButtons:".buttons_scoreboard",
     newScoreButtons:".buttons_new_score",
+    dialogButtonPanels:".ui-dialog-buttonpane",
+    sortDropDownList:"#container_sort",
     loaderOptions:"#loader"
 };
 
@@ -243,8 +245,17 @@ var defaultOptions = {
     "font-family":"Times New Roman",
     "text-shadow": "5px 2px 4px grey",
     "background":"red",
-    "color": "white",
-    "display":"none" // remove button
+    "color": "white"
+    },
+    dialogButtonPanels:{
+    "font-family":"Times New Roman",
+    "text-shadow": "5px 2px 4px grey",
+    "background":"#97B5F5",
+    "color": "red"
+    },
+    sortDropDownList:{
+    "font-family":"'Press Start 2P', Times New Roman",
+    "font-size":"20px"
     },
     newScoreButtons:{
     // new score dialog buttons
@@ -310,10 +321,14 @@ function initializeDefaultCSS(){
     $('#by_burey').css(scoreboardDialogOptions);
     // add margin to the scoreboard display area
     $('#scoreboard').css({"margin-top":"1.5em"});
+    
+     
 }
             
 function Scoreboard(options){
   var _score = 0;
+  var _sortMethod = null;
+  var _previousSortMethod = null;
 // might need to add to a different div, depends on the code, it must be on topmost layer!
 
 // add div container for the scoreboard dialog
@@ -365,7 +380,11 @@ function Scoreboard(options){
     }
     
     // add listener to database changes (any changes whatsoever)
-    dbRef.ref("scores").orderByChild("score").on("value", loadData, onError);
+
+    var bindDatabase = function(sortMethod){
+        dbRef.ref("scores").orderByChild(sortMethod).on("value", loadData, onError);
+    }
+
 
     Number.prototype.pad = function (n,str){
         return Array(n-String(this).length+1).join(str||'0')+this;
@@ -381,6 +400,8 @@ function Scoreboard(options){
     var refreshUI = function(list){
         // clears and re-populates the scoreboard table
         // remove all rows except the headers
+        if(_sortMethod === 'name')
+            list.reverse();
         $("#scoreboard").find("tr:gt(0)").remove();
         $('#loader').show();
         // find the table with the id scoreboard
@@ -472,7 +493,16 @@ function Scoreboard(options){
                     $('#container_scoreboard').dialog('close');
                 }
             }
-            ]
+            ],
+            create: function() {
+            var menuHTML='<div id="container_sort"><label id="lbl_sort">Sort By:</label><br />'+
+            '<select id="select_sort">+'+
+            '<option value="score">Score</option>'+
+            '<option value="name">Name</option>'+
+            '<option value="time">Time</option>'+
+            '</select></div>';
+          $(this).closest(".ui-dialog").find(".ui-dialog-buttonpane").append(menuHTML);
+        },
     }).scroll(function() {
         // set the #by_burey div as the top scroll element
     $('#by_burey', this).css({top: $(this).scrollTop()});
@@ -516,6 +546,15 @@ function Scoreboard(options){
             ]
         }
     );
-  applyStyling();
+    // attach onchange listener to sort by dropdown list
+    document.getElementById("select_sort").onchange = function(){
+        _sortMethod = document.getElementById("select_sort").value; // get selected dropdown list value
+        dbRef.ref(_previousSortMethod).off(); // detach previous database listener
+        _previousSortMethod = _sortMethod; // set previous sort method to current
+        bindDatabase(_sortMethod); // bind new database listener
+    }
+    bindDatabase('score'); // initial binding of database listener
+    _previousSortMethod = 'score'; // set previous sort method to current
+    applyStyling(); // apply initial CSS styling
   });
 }
