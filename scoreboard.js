@@ -326,9 +326,9 @@ function initializeDefaultCSS(){
 }
             
 function Scoreboard(options){
-  var _score = 0;
-  var _sortMethod = null;
-  var _previousSortMethod = null;
+  var _score = 0; // private score variable
+  var _sortMethod = 'score'; // set initial sort method to 'score'
+  var _previousSortMethod = 'score'; // set previous sort method to 'score' (first load)
 // might need to add to a different div, depends on the code, it must be on topmost layer!
 
 // add div container for the scoreboard dialog
@@ -553,8 +553,7 @@ function Scoreboard(options){
         _previousSortMethod = _sortMethod; // set previous sort method to current
         bindDatabase(_sortMethod); // bind new database listener
     }
-    bindDatabase('score'); // initial binding of database listener
-    _previousSortMethod = 'score'; // set previous sort method to current
+    bindDatabase(_sortMethod); // initial binding of database listener
     applyStyling(); // apply initial CSS styling
   });
 }
