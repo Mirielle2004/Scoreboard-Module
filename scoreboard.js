@@ -166,7 +166,7 @@ var defaultOptions = {
     // customize the following:
     // syntax is like css, but make sure:
     // key and value are both strings inside each option!
-    "scoreboardWidth":"auto", //recommended
+    "scoreboardWidth":"90%", //recommended
     "scoreboardHeight":"400", // recommended
     "submitDialogWidth":"auto", //recommended
     "submitDialogHeight":"auto", // recommended
