@@ -255,12 +255,15 @@ var defaultOptions = {
     },
     loaderOptions:{
     // scoreboard loading animation
-        "border-bottom": "16px solid #888",
-        "border-top": "16px solid #888",
-        "border-right": "16px solid green",
-        "border-left": "16px solid green",
+        "border-bottom": "25px solid #888",
+        "border-top": "25px solid #888",
+        "border-right": "25px solid green",
+        "border-left": "25px solid green",
+        "width": "80px",
+        "height": "80px",
         "margin-left": "auto",
-        "margin-right": "auto"
+        "margin-right": "auto",
+        "margin-top": "20px"
     }
 }          
 
