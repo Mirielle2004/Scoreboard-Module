@@ -1,0 +1,27 @@
+/*
+  Firebase rules schema for Scoreboard.js module
+*/
+
+{
+"rules": {
+  ".read": false,
+  ".write": false,
+  "scores": {
+    ".read": true,
+    ".indexOn": ["score"],
+    "$score": {
+      ".write":"newData.exists() || !newData.exists()",
+      ".validate": "newData.hasChildren(['name', 'score', 'time'])",
+      "name": {
+        ".validate": "newData.isString() && newData.val().length <= 30"// && !newData.val().contains('<script>')"
+        },
+        "score": {
+          ".validate": "newData.isNumber() && newData.val() <= 100000"
+        },
+        "time": {
+          ".validate": "newData.isNumber() && newData.val() <= now"
+        }
+      }
+    }
+	}
+}
