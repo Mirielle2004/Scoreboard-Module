@@ -329,6 +329,8 @@ function Scoreboard(options){
   var _score = 0; // private score variable
   var _sortMethod = 'score'; // set initial sort method to 'score'
   var _previousSortMethod = 'score'; // set previous sort method to 'score' (first load)
+
+  var SCORES_TO_LOAD = 100; 
 // might need to add to a different div, depends on the code, it must be on topmost layer!
 
 // add div container for the scoreboard dialog
@@ -382,7 +384,7 @@ function Scoreboard(options){
     // add listener to database changes (any changes whatsoever)
 
     var bindDatabase = function(sortMethod){
-        dbRef.ref("scores").orderByChild(sortMethod).on("value", loadData, onError);
+        dbRef.ref("scores").orderByChild(sortMethod).limitToLast(SCORES_TO_LOAD)on("value", loadData, onError);
     }
 
 
